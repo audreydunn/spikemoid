@@ -1,0 +1,8 @@
+*.npy
+*.bin
+*.pyc
+*.tar.gz
+*.hdf5
+*.out
+*.gif
+*.png
