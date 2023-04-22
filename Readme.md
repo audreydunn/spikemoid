@@ -44,7 +44,7 @@ Model Weights from the paper available for download [here](https://doi.org/10.52
 
 #  IV. Experiments - C. N-TIDIGITS18 Spikemoid
 1. `cd NTIDIGITS`
-2. `python classification_train.py --stop_updating_alpha_theta 10 --epochs 5 --global_alpha_theta` <- Train Scaled-Spikemax model to convergence
+2. `python classification_train.py --stop_updating_alpha_theta 10 --epochs 3000 --global_alpha_theta` <- Train Scaled-Spikemax model to convergence
 3. `python detection_train.py --pretrain --pretrain_folder bamsumit_params0_global` Note: --pretrain requires the --pretrain_folder argument to be set to the output files of your classification_train.py run
 4. `python detection_train.py --pretrain --global_alpha_theta --pretrain_folder bamsumit_params0_global`
 
@@ -59,9 +59,7 @@ The code to generate the dataset can be found here:
 Regenerating the dataset on different machines will yield different mixtures of digits, 
 so it is not recommended to actually run this. However, for reproducibility concerns we release the code here. 
 
-# Train 
-# Run Instructions
-1. cd mnist
-2. python train.py --help
-3. python train_kmnist.py --help
-4. python kmnist.py -> Creates gif visualizations of superimposed mnist
+# Additional Info
+The implementation of spikemoid and scaled spikemax can be found in this [file](https://github.com/audreydunn/lava-dl/blob/spikemoid_public/src/lava/lib/dl/slayer/loss.py). We plan to soon contact the lava team about incorporating spikemoid into their main repository
+
+This research was conducted at the Georgia Institute of Technology
