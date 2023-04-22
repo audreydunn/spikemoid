@@ -83,7 +83,7 @@ if __name__ == "__main__":
     if pretrain:
         pad_timesteps = 3000
         lr = 5e-4
-        pretrain_folder = "."
+        pretrain_folder = "ntidigits_detection_results"
         alpha = torch.nn.parameter.Parameter(data=torch.Tensor([1]).to(device=device), requires_grad=True)
         theta = torch.nn.parameter.Parameter(data=torch.Tensor([0]).to(device=device), requires_grad=False)
         error = slayer.loss.SpikeMax(mode="softmax", reduction = "mean", alpha = alpha[0], theta=theta[0]).to(device)

@@ -97,7 +97,7 @@ if __name__ == "__main__":
     """
     parser.add_argument("--loss_fn", "--lfn", default = "spikemax_counts", type = str, help = "Options are spikemax_counts, spikemax_rates, spikemax_alpha, spikemax_alpha_theta, spikemoid (spikemoid for max_digit = 2)")
     parser.add_argument("--global_alpha_theta", action= "store_true", default = False)
-    parser.add_argument("--max_digit", "--md", default = 2, type = int)
+    parser.add_argument("--max_digit", "--md", default = 10, type = int)
     parser.add_argument("--device_id", "-d_id", default = 0, type = int)
     parser.add_argument("--run_name", "-r_n", default = "0", type = str)
     parser.add_argument("--resume",action = "store_true", default = False)

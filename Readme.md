@@ -2,16 +2,19 @@
 This is the public codebase for the Spikemoid publication.
 
 # Setup Instructions 
-1. Clone the [lava-dl fork](https://github.com/audreydunn/lava-dl/tree/spikemoid_public). `git clone https://github.com/audreydunn/lava-dl.git` 
-2. checkout the 'spikemoid_public' branch.
-3. Reinstall lava-dl. You can use the default poetry install in the lava-dl-fork Readme 
-4. If you get poetry not recognized error on windows run `set PATH=%PATH%;%USERPROFILE%\AppData\Roaming\pypoetry\venv\Scripts`
-5. Install cuda pytorch version 1.12.1 using [this guide](https://pytorch.org/get-started/previous-versions/)
-6. pip install pandas 
-7. pip install tonic
-8. Download [2nmnist.zip](https://doi.org/10.5281/zenodo.7847750) and extract in  the mnist folder
-9. Download [n-tidigits.hdf5](https://www.dropbox.com/s/vfwwrhlyzkax4a2/n-tidigits.hdf5?dl=0) and place it in the NTIDIGITS folder. Further information about the publicly available dataset can be found [here](https://docs.google.com/document/d/1Uxe7GsKKXcy6SlDUX4hoJVAC0-UkH-8kr5UXp0Ndi1M/edit).
+1. Clone this repo and cd into it
+2. Clone the [lava-dl fork](https://github.com/audreydunn/lava-dl/tree/spikemoid_public) and cd into it
+3. checkout the 'spikemoid_public' branch.
+4. Reinstall lava-dl. You can use the default poetry install in the lava-dl-fork Readme 
+5. If you get poetry not recognized error on windows run `set PATH=%PATH%;%USERPROFILE%\AppData\Roaming\pypoetry\venv\Scripts`
+6. Install cuda pytorch version 1.12.1 using [this guide](https://pytorch.org/get-started/previous-versions/)
+7. cd ..
+8. pip install pandas 
+9. pip install tonic
+10. Download [2nmnist.zip](https://doi.org/10.5281/zenodo.7847750) and extract in the mnist folder
+11. Download [n-tidigits.hdf5](https://www.dropbox.com/s/vfwwrhlyzkax4a2/n-tidigits.hdf5?dl=0) and place it in the NTIDIGITS folder. Further information about the publicly available dataset can be found [here](https://docs.google.com/document/d/1Uxe7GsKKXcy6SlDUX4hoJVAC0-UkH-8kr5UXp0Ndi1M/edit).
 
+Model Weights from the paper available for download [here](https://doi.org/10.5281/zenodo.7854046)
 
 # NMNIST (TABLE 1)
 1. `cd mnist`
@@ -41,14 +44,14 @@ This is the public codebase for the Spikemoid publication.
 
 #  IV. Experiments - C. N-TIDIGITS18 Spikemoid
 1. `cd NTIDIGITS`
-2. `python classification_train.py --stop_updating_alpha_theta 200 --epochs 400` <- Train Scaled-Spikemax model to convergence
-3. `python detection_train.py --pretrain` Note: --pretrain requires the --pretrain_folder argument to be set to the output files of your classification_train.py run
-4. `python detection_train.py --pretrain --global_alpha_theta`
+2. `python classification_train.py --stop_updating_alpha_theta 10 --epochs 5 --global_alpha_theta` <- Train Scaled-Spikemax model to convergence
+3. `python detection_train.py --pretrain --pretrain_folder bamsumit_params0_global` Note: --pretrain requires the --pretrain_folder argument to be set to the output files of your classification_train.py run
+4. `python detection_train.py --pretrain --global_alpha_theta --pretrain_folder bamsumit_params0_global`
 
 
 # Spikemoid Model (Table II)
 1. `cd NTIDIGITS`
-2. `python classification_train.py --epochs 400 --pretrain --stop_updating_alpha_theta 200`  <-- fine tune detection model on classification task 
+2. `python classification_train.py --epochs 15 --pretrain --stop_updating_alpha_theta 5`  <-- fine tune detection model on classification task 
 
 # Generate 2NMNIST dataset
 The global version of this dataset is available [here](https://doi.org/10.5281/zenodo.7847750).

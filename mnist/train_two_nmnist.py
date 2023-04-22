@@ -36,7 +36,7 @@ def combine_stats(stats, sets = ["training", "testing"]):
         stats["%s_true_positive_rate"%set] = stats["%s_true_positives"%set] / (stats["%s_true_positives"%set] + stats["%s_false_negatives"%set])
         stats["%s_false_positive_rate"%set] = stats["%s_false_positives"%set] / (stats["%s_false_positives"%set] + stats["%s_true_negatives"%set])
         stats["%s_true_negative_rate"%set] = stats["%s_true_negatives"%set] / (stats["%s_true_negatives"%set] + stats["%s_false_positives"%set])
-        stats["%s_accuracy"%set] = (stats["%s_true_positives"%set] + stats["%s_true_negatives"%set]) / (stats["%s_true_positives"%set] + stats["%s_true_negatives"%set] + stats["%s_false_positives"%set]  + stats["%s_false_negatives"%set])
+        stats["%s_f1_score"%set] = (stats["%s_true_positives"%set] + stats["%s_true_negatives"%set]) / (stats["%s_true_positives"%set] + stats["%s_true_negatives"%set] + stats["%s_false_positives"%set]  + stats["%s_false_negatives"%set])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -110,8 +110,8 @@ if __name__ == "__main__":
         stats_df = pd.read_csv(trained_folder + '/stats.csv')
         del(stats_df["Unnamed: 0"])  # removes useless column
         metrics_dict_list = stats_df.to_dict('records')
-        best_acc = max(stats_df["testing_accuracy"])
-        start_idx = np.argmax(stats_df["testing_accuracy"]) + 1
+        best_f1 = max(stats_df["testing_f1_score"])
+        start_idx = np.argmax(stats_df["testing_f1_score"]) + 1
         metrics_dict_list = metrics_dict_list[:start_idx]
         with open(trained_folder + "/params.json", 'r') as fp:
             params = json.load(fp)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     else:
         start_idx = 0
         metrics_dict_list = []
-        best_acc = -sys.maxsize
+        best_f1 = -sys.maxsize
 
     for epoch in range(epochs):
         metrics_dict = {}
@@ -165,7 +165,6 @@ if __name__ == "__main__":
             total_false_negatives += false_negatives
 
             total_predictions += sum([sum(i) for i in truth_detections])
-
         metrics_dict["alpha"] =  alpha.detach().cpu().numpy().tolist()
         metrics_dict["theta"] = theta.detach().cpu().numpy().tolist()
         metrics_dict["train_loss"] = total_loss/(i + 1)
@@ -203,7 +202,6 @@ if __name__ == "__main__":
                 total_true_negatives += true_negatives
                 total_false_negatives += false_negatives
                 total_predictions += sum([sum(i) for i in truth_detections])
-
         metrics_dict["testing_true_positives"] = total_true_positives
         metrics_dict["testing_false_positives"] = total_false_positives
         metrics_dict["testing_true_negatives"] = total_true_negatives
@@ -211,9 +209,9 @@ if __name__ == "__main__":
         metrics_dict["test_loss"] = total_loss/(i + 1)
         combine_stats(metrics_dict)
 
-        if metrics_dict["testing_accuracy"] > best_acc:
-            best_acc = metrics_dict["testing_accuracy"]
-            print("Best accuracy", best_acc, flush = True)
+        if metrics_dict["testing_f1_score"] > best_f1:
+            best_f1 = metrics_dict["testing_f1_score"]
+            print("Best f1_score", best_f1, flush = True)
             torch.save(net.state_dict(), trained_folder + '/network.pt')
             with open(trained_folder + "/params.json", 'w') as fp:
                 json.dump({"alpha": metrics_dict["alpha"], "theta":metrics_dict["theta"] }, fp)
